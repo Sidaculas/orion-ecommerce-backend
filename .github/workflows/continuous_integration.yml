@@ -1,0 +1,26 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      - name: Install dependencies
+        run: npm install
+      - name: Build Project
+        run: npm run build
+      - name: Checkout typescript errors
+        run: npx tsc --noEmit
+      - name: Checkout lint errors
+        run: npm run lint
+      - name: Launch Unit and Integration tests
+        run: npm run test
